@@ -1251,14 +1251,18 @@ Citizen.CreateThread(function()
 
             CurrentAction = nil
           end
+        end		
+			
+        if IsControlJustReleased(0, Keys['F6']) and PlayerData.job ~= nil and PlayerData.job.name == 'ammunation' then
+            OpenMobileAmmuActionsMenu()
         end
 
     end
 end)
 
-RegisterNetEvent('esx_menu_actions:job')
+--[[RegisterNetEvent('esx_menu_actions:job')
 AddEventHandler('esx_menu_actions:job', function()
     if PlayerData.job ~= nil and PlayerData.job.name == 'ammunation' then
         OpenMobileAmmuActionsMenu()
     end
-end)
+end)]]
