@@ -1150,17 +1150,36 @@ Citizen.CreateThread(function()
 end)
 
 Citizen.CreateThread(function()
-  while true do
+  local trackedEntities = {
+	'prop_roadcone02a',
+	'prop_barrier_work05',
+	'p_ld_stinger_s',
+	'prop_boxpile_07d',
+	'hei_prop_cash_crate_half_full'
+	}
 
-    Citizen.Wait(0)
+	while true do
+	Citizen.Wait(500)
 
-    local playerPed = GetPlayerPed(-1)
-    local coords    = GetEntityCoords(playerPed)
+	local playerPed = PlayerPedId()
+	local coords    = GetEntityCoords(playerPed)
 
-    local entity, distance = ESX.Game.GetClosestObject({
-      'prop_roadcone02a',
-      'prop_toolchest_01'
-    })
+	local closestDistance = -1
+	local closestEntity   = nil
+
+	for i=1, #trackedEntities, 1 do
+		local object = GetClosestObjectOfType(coords, 3.0, GetHashKey(trackedEntities[i]), false, false, false)
+
+		if DoesEntityExist(object) then
+			local objCoords = GetEntityCoords(object)
+			local distance  = GetDistanceBetweenCoords(coords, objCoords, true)
+
+			if closestDistance == -1 or closestDistance > distance then
+				closestDistance = distance
+				closestEntity   = object
+			end
+		end
+	end
 
     if distance ~= -1 and distance <= 3.0 then
 
